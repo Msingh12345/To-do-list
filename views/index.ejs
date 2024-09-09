@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <title>To Do app</title>
+</head>
+<body>
+<div class="box" id="heading">
+  <h1>
+    <%= listitem %>
+  </h1>
+</div>
+  
+<div class="box">
+  <% for(let it of item){%>
+    <div class="item">
+      <form action="/delete" method="post">
+        <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= it.id %>">
+      </form>
+
+      <p id="title<%=it.id%>">
+        <%= it.id %>
+        <%= it.title %>
+      </p>
+      
+      <form class="edit" action="/edit" method="post">
+        <input type="hidden" name="updatedItemId" value="<%= it.id %>">
+        <input id="input<%=it.id%>" type="text" name="updatedItemTitle" value="<%= it.title %>" autocomplete="off"
+          autofocus="true" hidden="true" />
+        <button id="done<%=it.id%>" class="edit" type="submit" hidden><img class="icon"
+            src="icons/check-solid.svg" alt="tick image"></button>
+      </form>
+      <button id="edit<%=it.id%>" class="edit" onclick="handler('<%=it.id%>')"><img class="icon"
+          src="icons/pencil-solid.svg" alt="pencil-image"></button>
+      
+    </div>
+    
+    <% } %>
+     
+    <form class="item" action="/add" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
+      <button class="add" type="submit" value=<%=listitem %> >+</button>
+    </form>
+
+
+  </div>
+  <script>
+    function handler(id) {
+      document.getElementById("title" + id).setAttribute("hidden", true)
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("input" + id).removeAttribute("hidden")
+    }
+  </script>
+</body>
+</html>
+
